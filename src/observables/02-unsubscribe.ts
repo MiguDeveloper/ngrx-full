@@ -20,13 +20,19 @@ const intervalo$ = new Observable<number>((subs) => {
   };
 });
 
-const subs1 = intervalo$.subscribe((num) => console.log(num));
-const subs2 = intervalo$.subscribe((num) => console.log(num));
-const subs3 = intervalo$.subscribe((num) => console.log(num));
+const subs1 = intervalo$.subscribe(observer);
+const subs2 = intervalo$.subscribe(observer);
+const subs3 = intervalo$.subscribe(observer);
+
+// una alternativa para encadenar subscripciones es usa el add
+subs1.add(subs2).add(subs3);
 
 subsArr.push(subs1, subs2, subs3);
 
-// Recoradar que el complete no es igual que el unsubscribe
+// Recoradar que el complete(este siempre ejecuta el return del subscriber)
+// no es igual que el unsubscribe
 setTimeout(() => {
-  subsArr.forEach((sub) => sub.unsubscribe());
+  subs1.unsubscribe();
+  //subsArr.forEach((sub) => sub.unsubscribe());
+  console.log('completado setTimeout');
 }, 3500);

@@ -19,18 +19,19 @@ const obs$ = new Observable<number>((subs) => {
 // 3. tiene los metodos next, error, complete
 
 const subject$ = new Subject();
-const subsDeSubject = obs$.subscribe(subject$);
+const subscription = obs$.subscribe(subject$);
 
 // subs no coordinados
 // const sub1 = obs$.subscribe((rnd) => console.log(`subs1 ${rnd}`));
 // const sub2 = obs$.subscribe((rnd) => console.log(`subs2 ${rnd}`));
 
 // subs coordinados por el subject
-const sub1 = subject$.subscribe((rnd) => console.log(`subs1 ${rnd}`));
-const sub2 = subject$.subscribe((rnd) => console.log(`subs2 ${rnd}`));
+const subs1 = subject$.subscribe(observer);
+const subs2 = subject$.subscribe(observer);
+const subs3 = subject$.subscribe(observer);
 
 setTimeout(() => {
   subject$.next(10);
   subject$.complete();
-  subsDeSubject.unsubscribe();
+  subscription.unsubscribe();
 }, 3500);
