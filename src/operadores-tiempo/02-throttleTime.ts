@@ -15,6 +15,9 @@ input.setAttribute('type', 'text');
 body.append(input);
 
 const obsInput$ = fromEvent(input, 'keyup');
+
+// al throttletime le mandaremos un asyncScheduler para poder asignar el tercer
+// parametro de configuracion leading: primero trailing: ultima emision
 obsInput$
   .pipe(
     throttleTime(1000, asyncScheduler, { leading: false, trailing: true }),
